@@ -2,11 +2,11 @@ const STATIC_CACHE_NAME = 'app-shell-v2';
 const DYNAMIC_CACHE_NAME = 'dynamic-cache-v1';
 
 const APP_SHELL_ASSETS = [
-  './',
-  './index.html',
-  './about.html',
-  './style.css',
-  './register.js'
+  '/mi-pwa/',            // raíz del proyecto en GitHub Pages
+  '/mi-pwa/index.html',
+  '/mi-pwa/about.html',
+  '/mi-pwa/style.css',
+  '/mi-pwa/register.js'
 ];
 
 const DYNAMIC_ASSET_URLS = [
@@ -29,13 +29,11 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   const { request } = event;
-  const url = new URL(request.url);
 
   // Archivos estáticos locales
-  if (APP_SHELL_ASSETS.includes(`.${url.pathname}`) || APP_SHELL_ASSETS.includes(url.pathname)) {
+  if (APP_SHELL_ASSETS.includes(request.url)) {
     event.respondWith(caches.match(request));
   }
-
   // Recursos dinámicos externos
   else if (DYNAMIC_ASSET_URLS.includes(request.url)) {
     event.respondWith(
